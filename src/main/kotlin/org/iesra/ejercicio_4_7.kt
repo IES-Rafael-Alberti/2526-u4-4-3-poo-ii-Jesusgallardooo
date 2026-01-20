@@ -31,7 +31,6 @@ class Persona(val dni: String) {
     }
 }
 
-
 /**
  * Clase Cuenta
  * @param numeroDeCuenta
@@ -70,19 +69,35 @@ class Cuenta(val numeroDeCuenta:Int, var saldo:Double) {
         }
     }
 
-
+    /**
+     * Retorna el saldo
+     */
     fun consultar_saldo():Double{
         return saldo
     }
 
+    /**
+     * Recibir_abono
+     * @param abono
+     * Realiza un abono al saldo de la cuenta
+     */
     fun recibir_abono(abono:Double){
         saldo += abono
     }
 
+    /**
+     * Realizar_pago
+     * @param
+     * Realiza un pago y se lo resta a la cuenta
+     */
     fun realizar_pago(pago:Double){
         saldo -= pago
     }
 
+    /**
+     * To string
+     * @return datos de la cuenta
+     */
     override fun toString(): String {
         return "Cuenta($numeroDeCuenta, saldo=$saldo)"
     }
