@@ -28,6 +28,12 @@ class ConjuntoLibros(private val capacidad: Int) {
 
     private val libros = ArrayList<Libro>()
 
+    /**
+     * AnadirLibro: añade un libro siempre que sea posible
+     *
+     * @param libro
+     * @return Boolean
+     */
     fun anadirLibro(libro: Libro): Boolean {
         if (libros.size >= capacidad) return false
 
@@ -39,6 +45,12 @@ class ConjuntoLibros(private val capacidad: Int) {
         return true
     }
 
+    /**
+     * Eliminar por título: elimina un libro filtrando por títulos.
+     *
+     * @param titulo
+     * @return Boolean
+     */
     fun eliminarPorTitulo(titulo: String): Boolean {
         for (i in libros.indices) {
             if (libros[i].titulo == titulo) {
@@ -49,6 +61,12 @@ class ConjuntoLibros(private val capacidad: Int) {
         return false
     }
 
+    /**
+     * Eliminar por autor: elimina un libro filtrando por autores.
+     *
+     * @param autor
+     * @return Boolean
+     */
     fun eliminarPorAutor(autor: String): Boolean {
         var eliminado = false
         var i = 0
@@ -63,6 +81,7 @@ class ConjuntoLibros(private val capacidad: Int) {
         return eliminado
     }
 
+    /** Mostrar mayor y menor calificacion */
     fun mostrarMayorYMenorCalificacion() {
         if (libros.isEmpty()) {
             println("No existen los libros")
@@ -86,6 +105,7 @@ class ConjuntoLibros(private val capacidad: Int) {
         println("Menor calificación --> ${min.calificacion}")
     }
 
+    /** Mostrar conjunto */
     fun mostrarConjunto() {
         if (libros.isEmpty()) {
             println("Conjunto vacío")
