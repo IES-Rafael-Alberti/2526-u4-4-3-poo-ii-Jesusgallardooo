@@ -20,6 +20,10 @@ class Jugador(val id: Int) {
         }
     }
 
+    fun mostrarInformacion(){
+        println("JUGADOR$id, tu símbolo es: '$simbolo'")
+    }
+
 }
 
 
@@ -86,29 +90,77 @@ class Tablero(val filas:Int, val columnas:Int){
 
 class Juego(){
 
+    var tablero:Tablero = Tablero(3,3)
+    val jugador1:Jugador = Jugador(1)
+    val jugador2:Jugador = Jugador(2)
+    var turnoActual: Jugador = jugador1
+    var partidaEnCurso: Boolean = true
+
+    fun iniciar(){
+        // flujo del juego
+    }
+
+    fun cambiarTurno(){
+        if (turnoActual == jugador1){
+            turnoActual = jugador2
+        } else{
+            turnoActual = jugador1
+        }
+    }
+
+    fun ponerFicha(fila:Int, columna:Int): Boolean{
+        if (tablero.celdaVacia(fila, columna)){
+            tablero.colocarFicha(fila, columna, turnoActual.simbolo)
+            return true
+        }else {
+            return false
+        }
+    }
+
+    fun hayGanador():Boolean{
+
+        val simbolo = turnoActual.simbolo
+
+        // comprobar columnas
+        for (columna in 0 until tablero.columnas) {
+            if ((0 until tablero.filas).all { fila -> tablero.tablero[fila][columna] == simbolo }) {
+                return true
+            }
+        }
+
+        // comprobar filas
+        for (fila in 0 until tablero.filas) {
+            if ((0 until tablero.columnas).all { col -> tablero.tablero[fila][col] == simbolo }) {
+                return true
+            }
+        }
+
+        // comprobar diagonal izq --> dcha
+        if ((0 until tablero.filas).all { i -> tablero.tablero[i][i] == simbolo }) {
+            return true
+        }
+
+        // comprobar diagonal dcha --> izq
+        if ((0 until tablero.filas).all { i -> tablero.tablero[i][tablero.columnas - 1 - i] == simbolo }) {
+            return true
+        }
+
+        // no hay ganador
+        return false
+    }
+
+    fun Empate(): Boolean{
+        if (!hayGanador() && tablero.tableroLLeno()){
+            return true
+        }else{
+            return false
+        }
+    }
+
+
 }
 
 fun main(){
     val tablero = Tablero(3,3)
-    tablero.tablero[0][0] = "X"
-    tablero.tablero[0][1] = "O"
-    tablero.tablero[0][2] = "C"
-    tablero.tablero[1][0] = "F"
-    tablero.tablero[1][2] = "C"
-    tablero.tablero[2][0] = "D"
-    tablero.tablero[2][1] = "F"
-    tablero.tablero[2][2] = "O"
-
-    if (tablero.colocarFicha(1, 1, "X")) {
-        println("Ficha colocada correctamente")
-    } else {
-        println("Posición ya ocupada, intenta otra posición")
-    }
-
-    println(tablero.tableroLLeno())
-    println(tablero.celdaVacia(2,2))
     tablero.mostrarTablero()
-    tablero.limpiarTablero()
-    tablero.mostrarTablero()
-
 }
