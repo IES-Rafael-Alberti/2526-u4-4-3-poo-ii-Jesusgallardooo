@@ -1,5 +1,7 @@
 package org.iesra
 
+import javax.swing.plaf.TextUI
+
 // Tres en raya POO
 
 /**
@@ -77,6 +79,10 @@ class Tablero(val filas:Int, val columnas:Int){
         }
     }
 
+    fun comprobarCelda(fila:Int, columna:Int): String {
+        return tablero[fila][columna]
+    }
+
     fun limpiarTablero(){
         for (i in tablero.indices){
             for (j in tablero[i].indices){
@@ -93,11 +99,34 @@ class Juego(){
     var tablero:Tablero = Tablero(3,3)
     val jugador1:Jugador = Jugador(1)
     val jugador2:Jugador = Jugador(2)
-    var turnoActual: Jugador = jugador1
+    var turnoActual: Jugador = jugador2
     var partidaEnCurso: Boolean = true
 
     fun iniciar(){
-        // flujo del juego
+
+        println("<<< TRES EN RAYA >>>")
+
+        do {
+
+            cambiarTurno()
+            println("Turno del jugador: ${turnoActual.id} ('${turnoActual.simbolo}')")
+            tablero.mostrarTablero()
+
+            ponerFicha(pedirMovimiento(turnoActual, tablero))
+            if (hayGanador() || tablero.tableroLLeno()){
+                partidaEnCurso = false
+            }
+
+        }while(partidaEnCurso)
+
+        tablero.mostrarTablero()
+
+        if (hayGanador()){
+            println("\nGANADOR --> JUGADOR${turnoActual.id} ('${turnoActual.simbolo}')")
+        } else {
+            println("\nEMPATE TÉCNICO")
+        }
+
     }
 
     fun cambiarTurno(){
@@ -108,7 +137,41 @@ class Juego(){
         }
     }
 
-    fun ponerFicha(fila:Int, columna:Int): Boolean{
+    fun pedirMovimiento(jugador: Jugador, tablero: Tablero): Pair<Int, Int> {
+
+        var fila: Int = 0
+        var columna: Int = 0
+        var movimientoValido = false
+
+        while (!movimientoValido) {
+            print("Jugador ${jugador.id} (${jugador.simbolo}), ingresa fila (1-3): ")
+            fila = readLine()?.toIntOrNull() ?: 0
+
+            print("Jugador ${jugador.id} (${jugador.simbolo}), ingresa columna (1-3): ")
+            columna = readLine()?.toIntOrNull() ?: 0
+
+            if (fila in 1..3 && columna in 1..3) {
+                if (tablero.comprobarCelda(fila - 1, columna - 1) == tablero.valorInicial) {
+                    movimientoValido = true
+                } else {
+                    println("La celda ya está ocupada. Elige otra posición.")
+                }
+            } else {
+                println("Valores inválidos, deben estar entre 1 y 3. Intenta de nuevo.")
+            }
+        }
+
+        return Pair(fila - 1, columna - 1)
+    }
+
+
+
+
+    fun ponerFicha(posicion: Pair<Int, Int>): Boolean{
+
+        var fila = posicion.first
+        var columna = posicion.second
+
         if (tablero.celdaVacia(fila, columna)){
             tablero.colocarFicha(fila, columna, turnoActual.simbolo)
             return true
@@ -149,18 +212,9 @@ class Juego(){
         return false
     }
 
-    fun Empate(): Boolean{
-        if (!hayGanador() && tablero.tableroLLeno()){
-            return true
-        }else{
-            return false
-        }
-    }
-
-
 }
 
 fun main(){
-    val tablero = Tablero(3,3)
-    tablero.mostrarTablero()
+    val partida: Juego = Juego()
+    partida.iniciar()
 }
