@@ -3,15 +3,29 @@ package org.iesra
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+
+/**
+ * Clase Estado
+ *
+ * @constructor Crea un estado para las tareas
+ */
 enum class Estado{
     PENDIENTE,
     REALIZADA
 }
 
+
+/**
+ * Clase Tarea
+ * @property id
+ * @property descripcion
+ * @constructor Crea una tarea con un id, una descripción y un estado (PENDIENTE por defecto)
+ */
 class Tarea(val id: Int, var descripcion: String) {
     var estado: Estado = Estado.PENDIENTE
     var fechaRealizacion: String? = null
 
+    /** Marcar realizada */
     fun marcarRealizada() {
         estado = Estado.REALIZADA
         val fechaHoraActual = LocalDateTime.now()
@@ -19,19 +33,36 @@ class Tarea(val id: Int, var descripcion: String) {
         fechaRealizacion = fechaHoraActual.format(formatter)
     }
 
+    /**
+     * To string
+     *
+     * @return
+     */
     override fun toString(): String {
-        return if (estado == Estado.PENDIENTE) {
-            "Tarea(id=$id, descripcion='$descripcion', estado=PENDIENTE)"
-        } else {
-            "Tarea(id=$id, descripcion='$descripcion', estado=REALIZADA, fecha=$fechaRealizacion)"
+
+        if (estado==Estado.PENDIENTE) {
+            return "Tarea(id=$id, descripcion='$descripcion', estado=PENDIENTE)"
+        }else {
+            return "Tarea(id=$id, descripcion='$descripcion', estado=REALIZADA, fecha=$fechaRealizacion)"
         }
     }
+
 }
 
+/**
+ * Clase Lista de tareas
+ *
+ * @constructor Crea una lista de tareas para almacenarlas y tratar con ellas.
+ */
 class ListaDeTareas {
     private val tareas: MutableList<Tarea> = mutableListOf()
     private var siguienteId: Int = 1
 
+    /**
+     * Agregar tarea
+     *
+     * @param descripcion
+     */
     fun agregarTarea(descripcion: String) {
         val tarea = Tarea(siguienteId, descripcion)
         tareas.add(tarea)
@@ -39,6 +70,11 @@ class ListaDeTareas {
         siguienteId++
     }
 
+    /**
+     * Eliminar tarea
+     *
+     * @param id
+     */
     fun eliminarTarea(id: Int) {
         val tarea = tareas.find { it.id == id }
         if (tarea != null) {
@@ -49,6 +85,11 @@ class ListaDeTareas {
         }
     }
 
+    /**
+     * Cambiar estado
+     *
+     * @param id
+     */
     fun cambiarEstado(id: Int) {
         val tarea = tareas.find { it.id == id }
         if (tarea != null) {
@@ -63,6 +104,7 @@ class ListaDeTareas {
         }
     }
 
+    /** Listar tareas */
     fun listarTareas() {
         if (tareas.isEmpty()) {
             println("No hay tareas en la lista")
@@ -72,6 +114,7 @@ class ListaDeTareas {
         tareas.forEach { println(it) }
     }
 
+    /** Listar tareas pendientes */
     fun listarTareasPendientes() {
         val pendientes = tareas.filter { it.estado == Estado.PENDIENTE }
         if (pendientes.isEmpty()) {
@@ -82,6 +125,7 @@ class ListaDeTareas {
         pendientes.forEach { println(it) }
     }
 
+    /** Listar tareas realizadas */
     fun listarTareasRealizadas() {
         val realizadas = tareas.filter { it.estado == Estado.REALIZADA }
         if (realizadas.isEmpty()) {
@@ -133,7 +177,7 @@ fun main() {
             5 -> lista.listarTareasPendientes()
             6 -> lista.listarTareasRealizadas()
             7 -> {
-                println("Saliendo del programa...")
+                println("Fin del programa...")
                 continuar = false
             }
             else -> println("Opción inválida, intente de nuevo")
