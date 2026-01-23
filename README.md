@@ -14,7 +14,8 @@
 
 ## Descripción de la Actividad
 
-Rellenar
+Implementación de distintos ejercicios en Kotlin aplicando conceptos cada vez más avanzados de Programación Orientada a Objetos, 
+además de reforzar la teoría y el uso de estructuras de datos en kotlin.
 
 ## Instrucciones de Compilación y Ejecución
 
@@ -28,7 +29,8 @@ Rellenar
 ## Desarrollo de la Actividad
 ### Descripción del Desarrollo
 
-Rellenar
+Se han desarrollado clases y métodos siguiendo principios de POO, intentando asegurar un código limpio, reutilizable y  
+estructurado lo mejor posible. En el desarrollo de estas actividades sí que han habido más complicaciones
 
 ### Código Fuente
 
@@ -37,7 +39,8 @@ Rellenar
 
 ## Conclusiones
 
-Rellenar
+La práctica ha permitido afianzar el uso de la Programación Orientada a Objetos en Kotlin y mejorar la organización y 
+comprensión del código, facilitando además una forma de programar más clara, ordenada y fácil de mantener.
 
 ## Referencias y Fuentes
 

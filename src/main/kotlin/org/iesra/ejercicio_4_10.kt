@@ -28,7 +28,13 @@ class Jugador(val id: Int) {
 
 }
 
-
+/**
+ * Clase Tablero
+ *
+ * @property filas
+ * @property columnas
+ *  * @constructor Crea una clase tablero con las filas y columnas indicadas.
+ */
 class Tablero(val filas:Int, val columnas:Int){
 
     val valorInicial = " "
@@ -38,6 +44,7 @@ class Tablero(val filas:Int, val columnas:Int){
                     }
     }
 
+    /** Mostrar tablero */
     fun mostrarTablero(){
         val separador = "+${"-".repeat(3)}".repeat(columnas) + "+"
 
@@ -51,6 +58,13 @@ class Tablero(val filas:Int, val columnas:Int){
         println(separador)
     }
 
+    /**
+     * Celda vacia
+     *
+     * @param fila
+     * @param columna
+     * @return Boolean
+     */
     fun celdaVacia(fila:Int, columna:Int): Boolean{
         if (tablero[fila][columna] == valorInicial){
             return true
@@ -59,6 +73,11 @@ class Tablero(val filas:Int, val columnas:Int){
         }
     }
 
+    /**
+     * Tablero l leno
+     *
+     * @return Boolean
+     */
     fun tableroLLeno(): Boolean{
         for (fila in tablero){
             for (celda in fila){
@@ -70,6 +89,14 @@ class Tablero(val filas:Int, val columnas:Int){
         return true
     }
 
+    /**
+     * Colocar ficha
+     *
+     * @param fila
+     * @param columna
+     * @param ficha
+     * @return Boolean
+     */
     fun colocarFicha(fila:Int, columna:Int, ficha:String): Boolean{
         if (tablero[fila][columna] == valorInicial){
             tablero[fila][columna] = ficha
@@ -79,10 +106,18 @@ class Tablero(val filas:Int, val columnas:Int){
         }
     }
 
+    /**
+     * Comprobar celda
+     *
+     * @param fila
+     * @param columna
+     * @return String
+     */
     fun comprobarCelda(fila:Int, columna:Int): String {
         return tablero[fila][columna]
     }
 
+    /** Limpiar tablero */
     fun limpiarTablero(){
         for (i in tablero.indices){
             for (j in tablero[i].indices){
@@ -102,6 +137,7 @@ class Juego(){
     var turnoActual: Jugador = jugador2
     var partidaEnCurso: Boolean = true
 
+    /** Iniciar (flujo del juego) */
     fun iniciar(){
 
         println("<<< TRES EN RAYA >>>")
@@ -122,13 +158,14 @@ class Juego(){
         tablero.mostrarTablero()
 
         if (hayGanador()){
-            println("\nGANADOR --> JUGADOR${turnoActual.id} ('${turnoActual.simbolo}')")
+            println("\n <<< GANADOR --> JUGADOR ${turnoActual.id} ('${turnoActual.simbolo}') >>>")
         } else {
-            println("\nEMPATE TÉCNICO")
+            println("\n<<< EMPATE TÉCNICO >>>")
         }
 
     }
 
+    /** Cambiar turno */
     fun cambiarTurno(){
         if (turnoActual == jugador1){
             turnoActual = jugador2
@@ -137,6 +174,13 @@ class Juego(){
         }
     }
 
+    /**
+     * Pedir movimiento
+     *
+     * @param jugador
+     * @param tablero
+     * @return Par de enteros
+     */
     fun pedirMovimiento(jugador: Jugador, tablero: Tablero): Pair<Int, Int> {
 
         var fila: Int = 0
@@ -164,9 +208,12 @@ class Juego(){
         return Pair(fila - 1, columna - 1)
     }
 
-
-
-
+    /**
+     * Poner ficha
+     *
+     * @param posicion
+     * @return Boolean
+     */
     fun ponerFicha(posicion: Pair<Int, Int>): Boolean{
 
         var fila = posicion.first
@@ -180,6 +227,11 @@ class Juego(){
         }
     }
 
+    /**
+     * Hay ganador
+     *
+     * @return Boolean
+     */
     fun hayGanador():Boolean{
 
         val simbolo = turnoActual.simbolo
